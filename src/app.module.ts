@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path';
 import { DatabaseType, Env } from './config/env-loader';
+import { AuthModule } from './services/auth/auth.module';
+import { UserAccountModule } from './services/user-account/user-account.module';
 
 @Module({
   imports: [
-      TypeOrmModule.forRoot({
+    AuthModule,
+    UserAccountModule,
+    TypeOrmModule.forRoot({
       type: DatabaseType,
       host: Env().DB_HOST,
       port: Env().DB_PORT,
@@ -12,8 +17,11 @@ import { DatabaseType, Env } from './config/env-loader';
       password: Env().DB_PASSWORD,
       database: Env().DB_NAME,
       autoLoadEntities: true,
-      migrationsRun: true,
       synchronize: false,
+      logging: true,
+      migrationsTableName: '_schema_migration_history',
+      migrationsRun: true,
+      migrations: [join(__dirname, '/migrations/*.js')],
     }),
   ],
   controllers: [],
