@@ -1,6 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserAccountService } from '../user-account/user-account.service';
+import { refreshTokenDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -24,5 +25,15 @@ export class AuthService {
     return {
       acceess_token: this.jwtService.sign(payloads),
     };
+  }
+
+  async refreshToken({ refreshToken }: refreshTokenDto) {
+    const user = this.jwtService.decode(refreshToken);
+    const payloads = {
+      id: user['id'],
+      username: user['username'],
+    };
+    const access_token = this.jwtService.sign(payloads);
+    return access_token;
   }
 }

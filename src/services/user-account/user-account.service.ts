@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthService } from '../auth/auth.service';
+import { refreshTokenDto } from '../auth/dto/auth.dto';
 import { UserVerificationService } from '../user-verification/user-verification.service';
 import { UserAccountDto } from './dto/userAccount.dto';
 import { User } from './model/user-account.entity';
@@ -46,5 +47,9 @@ export class UserAccountService {
 
   async login(user: any) {
     return await this.authService.login(user);
+  }
+
+  async refreshToken(refreshToken: refreshTokenDto) {
+    return await this.authService.refreshToken(refreshToken);
   }
 }

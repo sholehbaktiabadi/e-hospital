@@ -7,6 +7,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { refreshTokenDto } from '../auth/dto/auth.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { LocalAuthGuard } from '../auth/local-auth.guard';
 import { UserAccountDto } from './dto/userAccount.dto';
@@ -40,7 +41,11 @@ export class UserAccountController {
   @UseGuards(JwtAuthGuard)
   @Get('protected')
   protected(@Request() req): string {
-    console.log('protected routes =========>  ', req.user);
     return req.user;
+  }
+
+  @Post('refresh-token')
+  async refreshToken(@Body() refreshToken: refreshTokenDto) {
+    return await this.userAccountService.refreshToken(refreshToken);
   }
 }
