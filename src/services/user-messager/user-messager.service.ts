@@ -5,7 +5,7 @@ import { Twilio } from 'twilio';
 import { smsVerifyText } from './dto/user-verify.dto';
 
 @Injectable()
-export class UserVerificationService {
+export class UserMessagerService {
   async SendPinCode(phoneNumber: string) {
     const { TwilioSid, TwilioAuth, TwilioNumber } = Env();
     const client = new Twilio(TwilioSid, TwilioAuth);

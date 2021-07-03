@@ -12,4 +12,6 @@ export class User {
   email: string;
   @Column('varchar', { length: 60 })
   phone_number: string;
+  @Column('varchar', { name: 'is_verified', length: 60, nullable: true })
+  isVerified: boolean;
 }

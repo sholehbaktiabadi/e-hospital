@@ -4,11 +4,11 @@ import { UserAccountController } from './user-account.controller';
 import { AuthModule } from '../user-auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './model/user-account.entity';
-import { UserVerificationModule } from '../user-verification/user-verification.module';
+import { UserMessagerModule } from '../user-messager/user-messager.module';
 
 @Module({
   imports: [
-    UserVerificationModule,
+    UserMessagerModule,
     forwardRef(() => AuthModule),
     TypeOrmModule.forFeature([User]),
   ],

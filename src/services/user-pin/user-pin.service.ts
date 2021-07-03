@@ -3,20 +3,25 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { gPin } from 'src/utilities/pin-generator';
 import { DifferentBetween, TimeNow } from 'src/utilities/time';
 import { Repository } from 'typeorm';
-import { UserVerificationService } from '../user-verification/user-verification.service';
+import { UserMessagerService } from '../user-messager/user-messager.service';
+import { UserPinDto } from './dto/user-pin.dto';
 import { UserPin } from './model/user-pin.entity';
 
 @Injectable()
 export class UserPinService {
   constructor(
     @InjectRepository(UserPin) private userPinRepository: Repository<UserPin>,
-    private readonly userVerificationService: UserVerificationService,
+    private readonly userMessagerService: UserMessagerService,
   ) {}
 
   async createUserPin(id: number) {
-    const dto = new UserPin();
+    const isAvailable = await this.userPinRepository.findOne({
+      where: { user_id: id },
+    });
+    const dto = isAvailable ? isAvailable : new UserPinDto();
     dto.user_pin = await gPin();
-    dto.user_id = id;
+    dto.user_id = isAvailable ? isAvailable.user_id : id;
+    dto.created_at = TimeNow();
     try {
       return await this.userPinRepository.save(dto);
     } catch (error) {
@@ -48,6 +53,6 @@ export class UserPinService {
       ? {
           message: 'pin-code not match any record, please request new pin-code',
         }
-      : await this.userVerificationService.SendPinCode(phone_number);
+      : this.userMessagerService.SendPinCode(phone_number);
   }
 }

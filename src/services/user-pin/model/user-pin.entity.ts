@@ -17,9 +17,8 @@ export class UserPin {
 
   @Column({
     type: 'timestamp without time zone',
-    nullable: true,
-    update: false,
-    default: () => `(now())`,
+    update: true,
+    nullable: false,
   })
   created_at: Date;
 

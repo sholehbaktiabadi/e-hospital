@@ -3,10 +3,10 @@ import { UserPinService } from './user-pin.service';
 import { UserPinController } from './user-pin.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserPin } from './model/user-pin.entity';
-import { UserVerificationModule } from '../user-verification/user-verification.module';
+import { UserMessagerModule } from '../user-messager/user-messager.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserPin]), UserVerificationModule],
+  imports: [TypeOrmModule.forFeature([UserPin]), UserMessagerModule],
   providers: [UserPinService],
   controllers: [UserPinController],
 })
