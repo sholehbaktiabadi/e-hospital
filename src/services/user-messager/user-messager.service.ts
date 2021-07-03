@@ -6,14 +6,14 @@ import { smsVerifyText } from './dto/user-verify.dto';
 
 @Injectable()
 export class UserMessagerService {
-  async SendPinCode(phoneNumber: string) {
+  async SendPinCode(phoneNumber: string, pinCode: string) {
     const { TwilioSid, TwilioAuth, TwilioNumber } = Env();
     const client = new Twilio(TwilioSid, TwilioAuth);
     return await client.messages
       .create({
         from: TwilioNumber,
         to: phoneNumber,
-        body: smsVerifyText + (await gPin()),
+        body: smsVerifyText + pinCode,
       })
       .then((resp) => ({ status: resp.status, from: resp.from, to: resp.to }));
   }

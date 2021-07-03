@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { gPin } from 'src/utilities/pin-generator';
 import { DifferentBetween, TimeNow } from 'src/utilities/time';
 import { Repository } from 'typeorm';
+import { UserAccountService } from '../user-account/user-account.service';
 import { UserMessagerService } from '../user-messager/user-messager.service';
 import { UserPinDto } from './dto/user-pin.dto';
 import { UserPin } from './model/user-pin.entity';
@@ -12,6 +13,7 @@ export class UserPinService {
   constructor(
     @InjectRepository(UserPin) private userPinRepository: Repository<UserPin>,
     private readonly userMessagerService: UserMessagerService,
+    private readonly userAccountService: UserAccountService,
   ) {}
 
   async createUserPin(id: number) {
@@ -29,30 +31,40 @@ export class UserPinService {
     }
   }
 
-  async isExpired(id: number): Promise<boolean> {
+  async isExpired(id: number): Promise<{ expired: boolean; pinCode: string }> {
     const selected = await this.userPinRepository.findOne({
       where: { user_id: id },
     });
     if (!selected) {
-      return false;
+      return { expired: true, pinCode: selected.user_pin };
     }
     const now = await TimeNow();
     const diferent = DifferentBetween(selected.created_at, now);
     let result = diferent + 15;
     if (result > 0) {
-      return false;
+      return { expired: false, pinCode: selected.user_pin };
     } else {
       await this.userPinRepository.delete(selected.id);
-      return true;
+      return { expired: true, pinCode: selected.user_pin };
     }
   }
 
-  async UserPinVerification(id: number, phone_number: string) {
-    const isExpired = await this.isExpired(id);
-    return isExpired
+  async userPinNotification(id: number, phone_number: string) {
+    const { expired, pinCode } = await this.isExpired(id);
+    return expired
       ? {
           message: 'pin-code not match any record, please request new pin-code',
         }
-      : this.userMessagerService.SendPinCode(phone_number);
+      : this.userMessagerService.SendPinCode(phone_number, pinCode);
+  }
+
+  async userVerify(pinCode: string, id: number) {
+    const selected = await this.userPinRepository.findOne({
+      where: { user_id: id },
+    });
+    const isSamePin: boolean = selected.user_pin === pinCode;
+    return isSamePin
+      ? await this.userAccountService.userVerification(id)
+      : { message: 'pin_code not match' };
   }
 }

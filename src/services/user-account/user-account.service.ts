@@ -11,9 +11,9 @@ import { User } from './model/user-account.entity';
 export class UserAccountService {
   constructor(
     @InjectRepository(User)
-    private userAccount: Repository<User>,
+    private userAccountRepository: Repository<User>,
     private readonly authService: AuthService,
-    private readonly userVerifService: UserMessagerService,
+    private readonly userMessagerService: UserMessagerService,
   ) {}
 
   async registerUser(data: UserAccountDto) {
@@ -27,18 +27,25 @@ export class UserAccountService {
     dto.phone_number = data.phone_number;
 
     try {
-      return await this.userAccount.save(dto);
+      return await this.userAccountRepository.save(dto);
     } catch (error) {
       return error;
     }
   }
 
-  async userVerification(phoneNumber: string) {
-    return await this.userVerifService.SendPinCode(phoneNumber);
+  async userVerification(id: number) {
+    const selected = await this.userAccountRepository.findOne({
+      where: { id },
+    });
+    if (!selected) {
+      return { message: 'user not found' };
+    }
+    selected.isVerified = true;
+    return this.userAccountRepository.save(selected);
   }
 
   async findOne(username: string, password: string): Promise<User> {
-    return await this.userAccount.findOne({
+    return await this.userAccountRepository.findOne({
       where: [{ username }, { password }],
     });
   }

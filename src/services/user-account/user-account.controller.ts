@@ -30,11 +30,6 @@ export class UserAccountController {
     return this.userAccountService.login(req.user);
   }
 
-  @Post('verify')
-  async verifiyUser(@Body('phone_number') phoneNumber: string) {
-    return this.userAccountService.userVerification(phoneNumber);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Get('protected')
   protected(@Request() req): string {
