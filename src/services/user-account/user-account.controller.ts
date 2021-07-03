@@ -1,5 +1,12 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
-import { AutheticatedGuard } from '../auth/authenticated.guard';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { LocalAuthGuard } from '../auth/local-auth.guard';
 import { UserAccountDto } from './dto/userAccount.dto';
 import { UserAccountService } from './user-account.service';
@@ -14,16 +21,17 @@ export class UserAccountController {
   }
 
   @UseGuards(LocalAuthGuard)
-  @Get()
-  async finOne(@Request() req) {
-    console.log(req.user);
-    return { msg: 'youre logged in !'};
-  }
-  
-  @UseGuards(AutheticatedGuard)
-  @Get('protected')
-  async protected(@Request() req) {
-    return req.user;
+  @Post()
+  login(@Request() req): any {
+    const { id, password, ...result } = req.user;
+    console.log(result);
+    return this.userAccountService.login(req.user);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('protected')
+  protected(@Request() req): string {
+    console.log('protected routes =========>  ', req.user);
+    return req.user;
+  }
 }

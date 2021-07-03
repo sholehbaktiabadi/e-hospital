@@ -8,8 +8,9 @@ import { User } from './model/user-account.entity';
 @Injectable()
 export class UserAccountService {
   constructor(
-    @InjectRepository(User) private userAccount: Repository<User>,
-    private authService: AuthService,
+    @InjectRepository(User)
+    private userAccount: Repository<User>,
+    private readonly authService: AuthService,
   ) {}
 
   async registerUser(data: UserAccountDto) {
@@ -35,5 +36,9 @@ export class UserAccountService {
 
   async auth(username: string, password: string) {
     return await this.authService.validateUser(username, password);
+  }
+
+  async login(user: any) {
+    return await this.authService.login(user);
   }
 }
