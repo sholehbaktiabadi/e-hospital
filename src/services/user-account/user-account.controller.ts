@@ -7,9 +7,9 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { refreshTokenDto } from '../auth/dto/auth.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { LocalAuthGuard } from '../auth/local-auth.guard';
+import { refreshTokenDto } from '../user-auth/dto/auth.dto';
+import { JwtAuthGuard } from '../user-auth/jwt-auth.guard';
+import { LocalAuthGuard } from '../user-auth/local-auth.guard';
 import { UserAccountDto } from './dto/userAccount.dto';
 import { UserAccountService } from './user-account.service';
 

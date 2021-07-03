@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AuthService } from '../auth/auth.service';
-import { refreshTokenDto } from '../auth/dto/auth.dto';
+import { AuthService } from '../user-auth/auth.service';
+import { refreshTokenDto } from '../user-auth/dto/auth.dto';
 import { UserVerificationService } from '../user-verification/user-verification.service';
 import { UserAccountDto } from './dto/userAccount.dto';
 import { User } from './model/user-account.entity';

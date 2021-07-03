@@ -2,13 +2,15 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { DatabaseType, Env } from './config/env-loader';
-import { AuthModule } from './services/auth/auth.module';
+import { AuthModule } from './services/user-auth/auth.module';
 import { UserAccountModule } from './services/user-account/user-account.module';
 import { UserVerificationModule } from './services/user-verification/user-verification.module';
+import { UserPinModule } from './services/user-pin/user-pin.module';
 
 @Module({
   imports: [
     AuthModule,
+    UserPinModule,
     UserVerificationModule,
     UserAccountModule,
     TypeOrmModule.forRoot({
@@ -19,10 +21,10 @@ import { UserVerificationModule } from './services/user-verification/user-verifi
       password: Env().DB_PASSWORD,
       database: Env().DB_NAME,
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
       logging: true,
       migrationsTableName: '_schema_migration_history',
-      migrationsRun: true,
+      migrationsRun: false,
       migrations: [join(__dirname, '/migrations/*.js')],
     }),
   ],
