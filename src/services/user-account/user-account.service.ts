@@ -24,6 +24,8 @@ export class UserAccountService {
     dto.username = data.username;
     dto.email = data.email;
     dto.password = data.password;
+    dto.phone_number = data.phone_number;
+
     try {
       return await this.userAccount.save(dto);
     } catch (error) {
@@ -32,7 +34,7 @@ export class UserAccountService {
   }
 
   async userVerification(phoneNumber: string) {
-    return await this.userVerifService.SendVerification(phoneNumber);
+    return await this.userVerifService.SendPinCode(phoneNumber);
   }
 
   async findOne(username: string, password: string): Promise<User> {

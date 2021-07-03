@@ -26,7 +26,8 @@ export class UserPin {
   @OneToOne(() => User, (user) => user.id, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    nullable: false,
   })
   @JoinColumn({ name: 'user_id' })
-  user_id: User;
+  user_id: number;
 }
