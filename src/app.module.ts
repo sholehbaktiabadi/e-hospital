@@ -4,10 +4,12 @@ import { join } from 'path';
 import { DatabaseType, Env } from './config/env-loader';
 import { AuthModule } from './services/auth/auth.module';
 import { UserAccountModule } from './services/user-account/user-account.module';
+import { UserVerificationModule } from './services/user-verification/user-verification.module';
 
 @Module({
   imports: [
     AuthModule,
+    UserVerificationModule,
     UserAccountModule,
     TypeOrmModule.forRoot({
       type: DatabaseType,

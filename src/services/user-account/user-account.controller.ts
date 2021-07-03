@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Request,
   UseGuards,
@@ -26,6 +27,14 @@ export class UserAccountController {
     const { id, password, ...result } = req.user;
     console.log(result);
     return this.userAccountService.login(req.user);
+  }
+
+  @Post('verify')
+  async verifiyUser(
+    @Body('phone_number') phoneNumber: string,
+    @Body('message') message: string,
+  ) {
+    return this.userAccountService.userVerification(phoneNumber, message);
   }
 
   @UseGuards(JwtAuthGuard)

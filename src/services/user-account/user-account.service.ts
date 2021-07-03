@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthService } from '../auth/auth.service';
+import { UserVerificationService } from '../user-verification/user-verification.service';
 import { UserAccountDto } from './dto/userAccount.dto';
 import { User } from './model/user-account.entity';
 
@@ -11,6 +12,7 @@ export class UserAccountService {
     @InjectRepository(User)
     private userAccount: Repository<User>,
     private readonly authService: AuthService,
+    private readonly userVerifService: UserVerificationService,
   ) {}
 
   async registerUser(data: UserAccountDto) {
@@ -26,6 +28,10 @@ export class UserAccountService {
     } catch (error) {
       return error;
     }
+  }
+
+  async userVerification(phoneNumber: string, message: string) {
+    return await this.userVerifService.SendVerification(phoneNumber, message);
   }
 
   async findOne(username: string, password: string): Promise<User> {
