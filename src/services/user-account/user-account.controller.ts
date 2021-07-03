@@ -31,11 +31,8 @@ export class UserAccountController {
   }
 
   @Post('verify')
-  async verifiyUser(
-    @Body('phone_number') phoneNumber: string,
-    @Body('message') message: string,
-  ) {
-    return this.userAccountService.userVerification(phoneNumber, message);
+  async verifiyUser(@Body('phone_number') phoneNumber: string) {
+    return this.userAccountService.userVerification(phoneNumber);
   }
 
   @UseGuards(JwtAuthGuard)

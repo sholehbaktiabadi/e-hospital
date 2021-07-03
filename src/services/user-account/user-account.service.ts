@@ -31,8 +31,8 @@ export class UserAccountService {
     }
   }
 
-  async userVerification(phoneNumber: string, message: string) {
-    return await this.userVerifService.SendVerification(phoneNumber, message);
+  async userVerification(phoneNumber: string) {
+    return await this.userVerifService.SendVerification(phoneNumber);
   }
 
   async findOne(username: string, password: string): Promise<User> {
