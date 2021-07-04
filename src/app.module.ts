@@ -28,6 +28,12 @@ import { DoctorModule } from './services/doctor/doctor.module';
       migrationsTableName: '_schema_migration_history',
       migrationsRun: false,
       migrations: [join(__dirname, '/migrations/*.js')],
+      ssl: true,
+      extra: {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      },
     }),
   ],
   controllers: [],
