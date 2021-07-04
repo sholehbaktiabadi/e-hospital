@@ -10,7 +10,7 @@ COPY . /app
 # install pm2
 RUN npm install pm2 -g \
     #install nest-cli
-    npm install @nestjs/cli -g \
+    npm install -g @nestjs/cli \
     # compile nest
     && npm run build \
     # Remove dev dependencies
