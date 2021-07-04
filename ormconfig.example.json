@@ -1,0 +1,21 @@
+{
+    "type": "postgres",
+    "host": "your_dbhost",
+    "port": "+db_port",
+    "username": "your_dbusername",
+    "password": "your_dbpassword",
+    "database": "your_dbdatabase",
+    "entities": [
+        "src/**/*.entity.ts"
+    ],
+    "migrations": [
+        "src/migrations/*.ts"
+    ],
+    "migrationsTableName": "_schema_migration_history",
+    "cli": {
+        "entitiesDir": [
+            "src/**/"
+        ],
+        "migrationsDir": "src/migrations"
+    }
+}
