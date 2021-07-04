@@ -6,10 +6,12 @@ import { AuthModule } from './services/user-auth/auth.module';
 import { UserAccountModule } from './services/user-account/user-account.module';
 import { UserMessagerModule } from './services/user-messager/user-messager.module';
 import { UserPinModule } from './services/user-pin/user-pin.module';
+import { DoctorModule } from './services/doctor/doctor.module';
 
 @Module({
   imports: [
     AuthModule,
+    DoctorModule,
     UserPinModule,
     UserMessagerModule,
     UserAccountModule,
