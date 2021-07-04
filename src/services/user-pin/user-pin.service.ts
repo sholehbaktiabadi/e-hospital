@@ -36,7 +36,10 @@ export class UserPinService {
       where: { user_id: id },
     });
     if (!selected) {
-      return { expired: true, pinCode: selected.user_pin };
+      return {
+        expired: true,
+        pinCode: 'not found, try to request pin verification',
+      };
     }
     const now = await TimeNow();
     const diferent = DifferentBetween(selected.created_at, now);
