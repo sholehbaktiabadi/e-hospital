@@ -43,7 +43,7 @@ export class UserPinService {
     }
     const now = await TimeNow();
     const diferent = DifferentBetween(selected.created_at, now);
-    let result = diferent + 15;
+    const result = diferent + 15;
     if (result > 0) {
       return { expired: false, pinCode: selected.user_pin };
     } else {

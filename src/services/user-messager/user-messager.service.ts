@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { gPin } from 'src/utilities/pin-generator';
 import { Env } from 'src/config/env-loader';
 import { Twilio } from 'twilio';
 import { smsVerifyText } from './dto/user-verify.dto';

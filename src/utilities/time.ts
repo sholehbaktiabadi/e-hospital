@@ -5,8 +5,8 @@ export function TimeNow() {
 }
 
 export function DifferentBetween(timeA: Date, timeB: Date): number {
-  var a = moment(timeA);
-  var b = moment(timeB);
+  const a = moment(timeA);
+  const b = moment(timeB);
   const resultBol = a.diff(b, 'minutes');
   return resultBol;
 }
