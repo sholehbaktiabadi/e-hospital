@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { TimeNow } from 'src/utilities/time';
+import { TimeNow } from '../../../utilities/time';
 
 @Entity({ name: 'doctor' })
 export class Doctor {

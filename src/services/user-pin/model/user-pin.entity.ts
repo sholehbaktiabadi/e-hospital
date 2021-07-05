@@ -1,4 +1,4 @@
-import { User } from 'src/services/user-account/model/user-account.entity';
+import { User } from '../../user-account/model/user-account.entity';
 import {
   Column,
   Entity,
