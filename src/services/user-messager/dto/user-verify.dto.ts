@@ -1,2 +1,2 @@
 export const smsVerifyText =
-  'Laratechid - Ini Kode rahasia untuk verifikasi akun, Jangan beritahu kesiapapun. Ini Kode rahasia untuk verifikasi :';
+  'Laratech.id - Ini kode rahasia untuk verifikasi, jangan beritahu kesiapapun. Ini kode rahasia untuk verifikasi akun :';

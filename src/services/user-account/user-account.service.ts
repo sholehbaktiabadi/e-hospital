@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { HashText, UnHashText } from 'src/utilities/text-encrypt';
 import { Repository } from 'typeorm';
 import { AuthService } from '../user-auth/auth.service';
 import { refreshTokenDto } from '../user-auth/dto/auth.dto';
@@ -14,14 +15,14 @@ export class UserAccountService {
     private readonly authService: AuthService,
   ) {}
 
-  async registerUser(data: UserAccountDto) {
+  async register(data: UserAccountDto) {
     if (!data) {
       return 'datas body reqired !';
     }
     const dto = new UserAccountDto();
     dto.username = data.username;
     dto.email = data.email;
-    dto.password = data.password;
+    dto.password = await HashText(data.password);
     dto.phone_number = data.phone_number;
 
     try {
@@ -29,6 +30,16 @@ export class UserAccountService {
     } catch (error) {
       return { message: error.message, code: error.code };
     }
+  }
+
+  async login(username: string, password: string) {
+    const user = await this.userAccountRepository.findOne({
+      where: [{ username }],
+    });
+    const checkPassword: boolean = await UnHashText(password, user.password);
+    return checkPassword
+      ? await this.authService.getToken(user)
+      : { message: 'user not found', error: 'NOTFOUND' };
   }
 
   async userVerification(id: number) {
@@ -40,18 +51,6 @@ export class UserAccountService {
     }
     selected.isVerified = true;
     return this.userAccountRepository.save(selected);
-  }
-
-  async login(username: string, password: string) {
-    const user = await this.userAccountRepository.findOne({
-      where: [{ username, password }],
-    });
-    console.log(user);
-    if (!user) {
-      return { message: 'user not found', error: 'NOTFOUND' };
-    } else {
-      return await this.authService.getToken(user);
-    }
   }
 
   async refreshToken(refreshToken: refreshTokenDto) {
