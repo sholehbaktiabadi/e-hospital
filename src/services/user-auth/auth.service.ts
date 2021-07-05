@@ -1,34 +1,24 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserAccountService } from '../user-account/user-account.service';
+import { User } from '../user-account/model/user-account.entity';
 import { refreshTokenDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @Inject(forwardRef(() => UserAccountService))
-    private userService: UserAccountService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private jwtService: JwtService) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.userService.findOne(username, password);
-    if (username === user.username && user.password === password) {
-      return user;
-    } else {
-      return 'not found';
-    }
-  }
-
-  async login(user: any) {
+  async getToken(user: User) {
     const payloads = {
       id: user.id,
       username: user.username,
       phone_number: user.phone_number,
     };
-    return {
-      acceess_token: this.jwtService.sign(payloads),
-    };
+    return { acceess_token: this.jwtService.sign(payloads) };
   }
 
   async refreshToken({ refreshToken }: refreshTokenDto) {

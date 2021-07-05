@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { refreshTokenDto } from '../user-auth/dto/auth.dto';
 import { JwtAuthGuard } from '../user-auth/jwt-auth.guard';
-import { LocalAuthGuard } from '../user-auth/local-auth.guard';
 import { UserAccountDto } from './dto/userAccount.dto';
 import { UserAccountService } from './user-account.service';
 
@@ -22,18 +21,19 @@ export class UserAccountController {
     return this.userAccountService.registerUser(data);
   }
 
-  @UseGuards(LocalAuthGuard)
-  @Post()
-  login(@Request() req): any {
-    const { id, password, ...result } = req.user;
-    console.log(result);
-    return this.userAccountService.login(req.user);
+  @Post('login')
+  async login(
+    @Body('username') username: string,
+    @Body('password') password: string,
+  ) {
+    return await this.userAccountService.login(username, password);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('protected')
-  protected(@Request() req): string {
-    return req.user;
+  async protected(@Request() req): Promise<any> {
+    console.log(req.user);
+    return await req.user;
   }
 
   @Post('refresh-token')

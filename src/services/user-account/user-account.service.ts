@@ -29,7 +29,7 @@ export class UserAccountService {
     try {
       return await this.userAccountRepository.save(dto);
     } catch (error) {
-      return error;
+      return { message: error.message, code: error.code };
     }
   }
 
@@ -44,18 +44,16 @@ export class UserAccountService {
     return this.userAccountRepository.save(selected);
   }
 
-  async findOne(username: string, password: string): Promise<User> {
-    return await this.userAccountRepository.findOne({
-      where: [{ username }, { password }],
+  async login(username: string, password: string) {
+    const user = await this.userAccountRepository.findOne({
+      where: [{ username, password }],
     });
-  }
-
-  async auth(username: string, password: string) {
-    return await this.authService.validateUser(username, password);
-  }
-
-  async login(user: any) {
-    return await this.authService.login(user);
+    console.log(user);
+    if (!user) {
+      return { message: 'user not found', error: 'NOTFOUND' };
+    } else {
+      return await this.authService.getToken(user);
+    }
   }
 
   async refreshToken(refreshToken: refreshTokenDto) {
