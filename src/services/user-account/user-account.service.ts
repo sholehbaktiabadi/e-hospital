@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthService } from '../user-auth/auth.service';
 import { refreshTokenDto } from '../user-auth/dto/auth.dto';
-import { UserMessagerService } from '../user-messager/user-messager.service';
 import { UserAccountDto } from './dto/userAccount.dto';
 import { User } from './model/user-account.entity';
 
@@ -13,7 +12,6 @@ export class UserAccountService {
     @InjectRepository(User)
     private userAccountRepository: Repository<User>,
     private readonly authService: AuthService,
-    private readonly userMessagerService: UserMessagerService,
   ) {}
 
   async registerUser(data: UserAccountDto) {
