@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-export const DatabaseType = 'postgres';
 export const Env = () => ({
   SERVER_ENV: +process.env.SERVER_ENV,
   SERVER_PORT: +process.env.SERVER_PORT,
