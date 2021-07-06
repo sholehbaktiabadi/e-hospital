@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HashText, UnHashText } from 'src/utilities/text-encrypt';
 import { Repository } from 'typeorm';
-import { AuthService } from '../user-auth/auth.service';
-import { refreshTokenDto } from '../user-auth/dto/auth.dto';
+import { AuthService } from '../../auth/auth.service';
+import { refreshTokenDto } from '../../auth/dto/auth.dto';
 import { UserAccountDto } from './dto/userAccount.dto';
 import { User } from './model/user-account.entity';
 

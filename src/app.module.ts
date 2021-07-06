@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { AuthModule } from './services/user-auth/auth.module';
-import { UserAccountModule } from './services/user-account/user-account.module';
+import { AuthModule } from './services/auth/auth.module';
+import { UserAccountModule } from './services/user/user-account/user-account.module';
 import { UserMessagerModule } from './services/user-messager/user-messager.module';
-import { UserPinModule } from './services/user-pin/user-pin.module';
+import { UserPinModule } from './services/user/user-pin/user-pin.module';
 import { DoctorModule } from './services/doctor/doctor.module';
 import { Env } from './config/env-loader';
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = Env();

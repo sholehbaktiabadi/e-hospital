@@ -4,7 +4,7 @@ import { gPin } from 'src/utilities/pin-generator';
 import { DifferentBetween, TimeNow } from 'src/utilities/time';
 import { Repository } from 'typeorm';
 import { UserAccountService } from '../user-account/user-account.service';
-import { UserMessagerService } from '../user-messager/user-messager.service';
+import { UserMessagerService } from '../../user-messager/user-messager.service';
 import { UserPinDto } from './dto/user-pin.dto';
 import { UserPin } from './model/user-pin.entity';
 
