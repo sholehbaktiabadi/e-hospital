@@ -28,6 +28,12 @@ const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = Env();
       migrationsTableName: '_schema_migration_history',
       migrationsRun: true,
       migrations: [join(__dirname, '/migrations/*.js')],
+      ssl: false,
+      extra: {
+        ssl: {
+          rejectUnauthorized: true
+        }
+      }
     }),
   ],
   controllers: [],
