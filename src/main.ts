@@ -11,6 +11,5 @@ async function bootstrap() {
   app.listen(port, host, function() {
     console.log(`Server started.......${port}`);
   });
-  Logger.log('3000');
 }
 bootstrap();
